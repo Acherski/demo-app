@@ -126,6 +126,14 @@
         .p-datepicker-header {
             background: #1c1b22;
         }
+        
+        .p-ripple {
+            transition: 0s;
+        }
+        .p-ripple:hover > .ng-star-inserted {
+            background: transparent;
+            transition: 0s;
+        }
     }
 }
 
