@@ -1,0 +1,104 @@
+<form [formGroup]="themeModeForm" class="theme-mode">
+  <p-selectButton
+    formControlName="modeControl"
+    [options]="modes"
+    [(ngModel)]="selectedMode"
+    optionLabel="name"
+  ></p-selectButton>
+</form>
+<button
+  (click)="resetTable()"
+  pButton
+  type="button"
+  label="Zresetuj tabelę"
+  icon="pi pi-filter-slash"
+  iconPos="right"
+  class="p-button-outlined main-component__clear-button"
+></button>
+<div *ngIf="state$ | async as state" class="main-component">
+  <div *ngIf="state.status === 'LOADING'" class="main-component__loader">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <ng-container *ngIf="state.status === 'ERROR'">
+    <p class="main-component__error">
+      Brak danych. Zresetuj tabelę przyciskiem powyżej lub wybierz
+      inną datę.
+    </p>
+  </ng-container>
+  <form [formGroup]="dateForm" class="main-component__form">
+    <p-calendar
+      formControlName="dateControl"
+      [(ngModel)]="dateValue"
+      dateFormat="yy-mm-dd"
+      dataType="string"
+      [showIcon]="true"
+    ></p-calendar>
+    <p *ngIf="dateControl.invalid">Nieprawidłowy format daty</p>
+  </form>
+  <ng-container *ngIf="state.status === 'SUCCESS'">
+    <p-table
+      #dt
+      [value]="state.data![0].rates"
+      [paginator]="true"
+      [rows]="10"
+      [rowHover]="true"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [filterDelay]="0"
+      [globalFilterFields]="['code', 'currency', 'mid']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          Lista walut
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filterGlobal(
+                  formatToHTMLInputElement($event.target).value,
+                  'contains'
+                )
+              "
+              placeholder="Wyszukaj..."
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="code" style="width: 20rem">
+            Symbol waluty<p-sortIcon field="code"></p-sortIcon>
+          </th>
+          <th pSortableColumn="currency" style="width: 40rem">
+            Waluta<p-sortIcon field="currency"></p-sortIcon>
+          </th>
+          <th pSortableColumn="mid">
+            Kurs waluty<p-sortIcon field="mid"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rate>
+        <tr>
+          <td>
+            {{ rate.code }}
+          </td>
+          <td>
+            {{ rate.currency }}
+          </td>
+          <td>
+            {{ rate.mid }}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">Brak wyników.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-container>
+</div>

@@ -6,10 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-// primeng modules
-import { TableModule } from 'primeng/table';
-import { CalendarModule } from 'primeng/calendar';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,10 +17,10 @@ import { CalendarModule } from 'primeng/calendar';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    TableModule,
-    CalendarModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],
+  exports: [SharedModule]
 })
 export class AppModule {}

@@ -55,7 +55,16 @@ export class MainService {
           data: null,
           error: err.error,
         });
+        
       },
     });
+  }
+
+  public setTheme(mode: string) {
+      // if (mode === 'DARK'){
+      //   import '~primeng/resources/themes/lara-light-blue/theme.css';
+      // } else if (mode === 'LIGHT'){
+      //   import '~primeng/resources/themes/mdc-dark-indigo/theme.css';
+      // }
   }
 }

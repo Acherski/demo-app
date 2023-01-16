@@ -12,3 +12,8 @@ export interface Rate {
     code: string;
     mid: number;
 }
+
+export interface Mode {
+    name: string;
+    mode: string;
+}
