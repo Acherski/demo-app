@@ -32,6 +32,7 @@
       [(ngModel)]="dateValue"
       dateFormat="yy-mm-dd"
       dataType="string"
+      placeholder="Wpisz lub wybierz datę"
       [showIcon]="true"
     ></p-calendar>
     <p *ngIf="dateControl.invalid">Nieprawidłowy format daty</p>
@@ -47,8 +48,7 @@
       [rowsPerPageOptions]="[10, 25, 50]"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [filterDelay]="0"
-      [globalFilterFields]="['code', 'currency', 'mid']"
-    >
+      [globalFilterFields]="['code', 'currency', 'mid']">
       <ng-template pTemplate="caption">
         <div class="table-header">
           Lista walut

@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from './api.service';
 import { CurrentExchangeRate, FetchStatus } from './model';
+import { DOCUMENT } from '@angular/common';
 
 export interface CurrentExchangeRateState {
   data: CurrentExchangeRate[] | null;
@@ -25,7 +26,7 @@ export class MainService {
       initialCurrentExchangeRateState
     );
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, @Inject(DOCUMENT) private document: Document) {}
 
   public get currentExchangeRateState$() {
     return this.currentExchangeRateState.asObservable();
@@ -55,16 +56,15 @@ export class MainService {
           data: null,
           error: err.error,
         });
-        
       },
     });
   }
 
   public setTheme(mode: string) {
-      // if (mode === 'DARK'){
-      //   import '~primeng/resources/themes/lara-light-blue/theme.css';
-      // } else if (mode === 'LIGHT'){
-      //   import '~primeng/resources/themes/mdc-dark-indigo/theme.css';
-      // }
+    if (mode === 'DARK'){
+      this.document.documentElement.setAttribute('theme', 'DARK')
+    } else if (mode === 'LIGHT'){
+      this.document.documentElement.setAttribute('theme', 'LIGHT')
+    }
   }
 }
